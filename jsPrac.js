@@ -148,3 +148,64 @@ class LRUCache {
         this.cache.set(key, value);
     }
 }
+// 16. Find the Second Largest Number in an Array
+function secondLargest(arr) {
+    let first = -Infinity, second = -Infinity;
+    for (let num of arr) {
+        if (num > first) {
+            second = first;
+            first = num;
+        } else if (num > second && num !== first) {
+            second = num;
+        }
+    }
+    return second;
+}
+
+// 17. Check if an Array is Sorted
+function isSorted(arr) {
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] < arr[i - 1]) return false;
+    }
+    return true;
+}
+
+// 18. Implement a Throttle Function
+function throttle(func, limit) {
+    let lastFunc, lastRan;
+    return function (...args) {
+        if (!lastRan) {
+            func.apply(this, args);
+            lastRan = Date.now();
+        } else {
+            clearTimeout(lastFunc);
+            lastFunc = setTimeout(() => {
+                if (Date.now() - lastRan >= limit) {
+                    func.apply(this, args);
+                    lastRan = Date.now();
+                }
+            }, limit - (Date.now() - lastRan));
+        }
+    };
+}
+
+// 19. Find the Intersection of Two Arrays
+function arrayIntersection(arr1, arr2) {
+    return arr1.filter(num => arr2.includes(num));
+}
+
+// 20. Implement a Simple Event Emitter
+class EventEmitter {
+    constructor() {
+        this.events = {};
+    }
+    on(event, listener) {
+        if (!this.events[event]) this.events[event] = [];
+        this.events[event].push(listener);
+    }
+    emit(event, ...args) {
+        if (this.events[event]) {
+            this.events[event].forEach(listener => listener(...args));
+        }
+    }
+}
